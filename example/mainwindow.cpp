@@ -16,6 +16,12 @@
 * License along with this library; if not, see
 * https://www.gnu.org/licenses/
 */
+#include "mainwindow.h"
+#include "optionsdialog.h"
+#include "searchdialog.h"
+
+#include <qhexedit.h>
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QApplication>
@@ -29,14 +35,16 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QStyleFactory>
-
-#include "mainwindow.h"
+#include <QMimeData>
+#include <QFile>
+#include <QSettings>
 
 /*****************************************************************************/
 /* Public methods */
 /*****************************************************************************/
 MainWindow::MainWindow()
 {
+    file = new QFile;
     setAcceptDrops( true );
     init();
     setCurrentFile("");
@@ -388,12 +396,12 @@ void MainWindow::createToolBars()
 
 void MainWindow::loadFile(const QString &fileName)
 {
-    file.setFileName(fileName);
-    if (!hexEdit->setData(file)) {
+    file->setFileName(fileName);
+    if (!hexEdit->setData(*file)) {
         QMessageBox::warning(this, tr("QHexEdit"),
                              tr("Cannot read file %1:\n%2.")
                              .arg(fileName)
-                             .arg(file.errorString()));
+                             .arg(file->errorString()));
         return;
     }
     setCurrentFile(fileName);

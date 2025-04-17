@@ -73,7 +73,7 @@ CommandLineParseResult parseCommandLine(QCommandLineParser &parser, ParsedOption
 
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(qhexedit);
+    //Q_INIT_RESOURCE(qhexedit);
     QApplication app(argc, argv);
 
     QCoreApplication::setApplicationName("QHexEdit");
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(":images/qhexedit.ico"));
 
     QTranslator translator_app;
-    if (translator_app.load(QLocale(), "qhexedit", "_", ":/translations"))
+    if (translator_app.load(QLocale(), "example", "_", ":/translations"))
         QCoreApplication::installTranslator(&translator_app);
 
     QTranslator translator_qt;

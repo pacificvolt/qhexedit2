@@ -17,6 +17,7 @@
 * https://www.gnu.org/licenses/
 */
 #include "chunks.h"
+#include <QBuffer>
 #include <limits.h>
 
 #define NORMAL 0

@@ -19,12 +19,12 @@
 #ifndef OPTIONSDIALOG_H
 #define OPTIONSDIALOG_H
 
-#include <QtCore>
 #include <QDialog>
 
-#include "../src/qhexedit.h"
+class QHexEdit;
 
-namespace Ui {
+namespace Ui
+{
     class OptionsDialog;
 }
 

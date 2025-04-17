@@ -19,6 +19,9 @@
 #ifndef CHUNKS_H
 #define CHUNKS_H
 
+#include <QObject>
+#include <QByteArray>
+
 /** \cond docNever */
 
 /*! The Chunks class is the storage backend for QHexEdit.
@@ -34,8 +37,6 @@
  * which keep track of which bytes are changed and which not.
  *
  */
-
-#include <QtCore>
 
 struct Chunk
 {

@@ -20,7 +20,9 @@
 #include <QApplication>
 #include <QColorDialog>
 #include <QFontDialog>
+#include <QSettings>
 
+#include <qhexedit.h>
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 

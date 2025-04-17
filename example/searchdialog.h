@@ -20,9 +20,8 @@
 #define SEARCHDIALOG_H
 
 #include <QDialog>
-#include <QtCore>
-#include "../src/qhexedit.h"
 
+class QHexEdit;
 namespace Ui {
     class SearchDialog;
 }

@@ -17,6 +17,7 @@
 * https://www.gnu.org/licenses/
 */
 #include "color_manager.h"
+#include "chunks.h"
 
 #include <QApplication>
 #include <QStyleFactory>

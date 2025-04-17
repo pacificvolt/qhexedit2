@@ -21,9 +21,9 @@
 
 #include <QMainWindow>
 
-#include "../src/qhexedit.h"
-#include "optionsdialog.h"
-#include "searchdialog.h"
+class QHexEdit;
+class OptionsDialog;
+class SearchDialog;
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -32,6 +32,7 @@ class QUndoStack;
 class QLabel;
 class QDragEnterEvent;
 class QDropEvent;
+class QFile;
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -78,7 +79,7 @@ private:
     void writeSettings();
 
     QString curFile;
-    QFile file;
+    QFile *file{ nullptr };
     bool isUntitled;
     bool isModified;
 

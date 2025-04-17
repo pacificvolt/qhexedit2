@@ -19,6 +19,7 @@
 #include "searchdialog.h"
 #include "ui_searchdialog.h"
 
+#include <qhexedit.h>
 #include <QMessageBox>
 
 SearchDialog::SearchDialog(QHexEdit *hexEdit, QWidget *parent) :

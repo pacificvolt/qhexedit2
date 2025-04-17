@@ -17,6 +17,8 @@
 * https://www.gnu.org/licenses/
 */
 #include "commands.h"
+#include "chunks.h"
+
 #include <QUndoCommand>
 
 

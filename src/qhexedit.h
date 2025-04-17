@@ -20,12 +20,11 @@
 #define QHEXEDIT_H
 
 #include <QAbstractScrollArea>
-#include <QPen>
-#include <QBrush>
-
-#include "chunks.h"
-#include "commands.h"
-#include "color_manager.h"
+class Chunks;
+class QBuffer;
+class QTimer;
+class UndoStack;
+class ColorManager;
 
 #ifdef QHEXEDIT_EXPORTS
 #define QHEXEDIT_API Q_DECL_EXPORT
@@ -416,9 +415,9 @@ private:
     bool _editAreaIsAscii;                      // flag about the ascii mode edited
     int _addrDigits;                            // real no of addressdigits, may be > addressWidth
     bool _blink;                                // help get cursor blinking
-    QBuffer _bData;                             // buffer, when setup with QByteArray
-    Chunks *_chunks;                            // IODevice based access to data
-    QTimer _cursorTimer;                        // for blinking cursor
+    QBuffer *_bData{ nullptr };                 // buffer, when setup with QByteArray
+    Chunks *_chunks{ nullptr };                 // IODevice based access to data
+    QTimer *_cursorTimer;                       // for blinking cursor
     qint64 _cursorPosition;                     // absolute position of cursor, 1 Byte == 2 tics
     QRect _cursorRect;                          // physical dimensions of cursor
     QByteArray _data;                           // QHexEdit's data, when setup with QByteArray

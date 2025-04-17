@@ -16,13 +16,19 @@
 * License along with this library; if not, see
 * https://www.gnu.org/licenses/
 */
+#include "qhexedit.h"
+#include "chunks.h"
+#include "commands.h"
+#include "color_manager.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QScrollBar>
+#include <QTimer>
+#include <QBuffer>
 
-#include "qhexedit.h"
 #include <algorithm>
 
 
@@ -40,7 +46,9 @@ QHexEdit::QHexEdit(QWidget *parent) : QAbstractScrollArea(parent)
     , _hexCaps(false)
     , _dynamicBytesPerLine(false)
     , _editAreaIsAscii(false)
+    , _bData(new QBuffer(this))
     , _chunks(new Chunks(this))
+    , _cursorTimer(new QTimer(this))
     , _cursorPosition(0)
     , _lastEventSize(0)
     , _undoStack(new UndoStack(_chunks, this))
@@ -51,13 +59,13 @@ QHexEdit::QHexEdit(QWidget *parent) : QAbstractScrollArea(parent)
 #else
     setFont(QFont("Monospace", 10));
 #endif
-    connect(&_cursorTimer, SIGNAL(timeout()), this, SLOT(updateCursor()));
+    connect(_cursorTimer, SIGNAL(timeout()), this, SLOT(updateCursor()));
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(adjust()));
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(adjust()));
     connect(_undoStack, SIGNAL(indexChanged(int)), this, SLOT(dataChangedPrivate(int)));
 
-    _cursorTimer.setInterval(500);
-    _cursorTimer.start();
+    _cursorTimer->setInterval(500);
+    _cursorTimer->start();
 
     setAddressWidth(4);
     setAddressArea(true);
@@ -243,8 +251,8 @@ qint64 QHexEdit::cursorPosition()
 void QHexEdit::setData(const QByteArray &ba)
 {
     _data = ba;
-    _bData.setData(_data);
-    setData(_bData);
+    _bData->setData(_data);
+    setData(*_bData);
 }
 
 QByteArray QHexEdit::data()
@@ -973,7 +981,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
 
         // We have to repaint the current char because the curser destroys the char
         painter.setPen(curArea.fontColor());
-        if (_editAreaIsAscii)
+        if ( _editAreaIsAscii && ( hexPos < _dataShown.length() ) )
         {
             // every 2 hex there is 1 ascii
             int ch = (uchar)_dataShown.at(hexPos / 2);
@@ -982,7 +990,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
 
             painter.drawText(_pxCursorX - pxOfsX, _pxCursorY, QChar(ch));
         }
-        else
+        else if ( hexPos < _hexDataShown.length() )
         {
             QByteArray txt = _hexDataShown.mid(hexPos, 1);
             if (_hexCaps)
