@@ -14,9 +14,14 @@ qt_add_library(qhexedit
     commands.cpp commands.h
     qhexedit.cpp qhexedit.h
 )
-target_compile_definitions(qhexedit PUBLIC
+target_compile_definitions(qhexedit PRIVATE
     QHEXEDIT_EXPORTS
 )
+
+target_compile_definitions(qhexedit PUBLIC
+    QHEXEDIT_IMPORTS
+)
+
 
 target_link_libraries(qhexedit PUBLIC
     Qt::Core
@@ -25,7 +30,9 @@ target_link_libraries(qhexedit PUBLIC
 )
 
 install(TARGETS qhexedit
+    EXPORT qhexedit
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
