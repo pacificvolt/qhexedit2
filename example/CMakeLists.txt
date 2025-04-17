@@ -1,37 +1,33 @@
 cmake_minimum_required(VERSION 3.16)
-project(qhexedit VERSION 1.0 LANGUAGES C CXX)
+project(example VERSION 1.0 LANGUAGES C CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Widgets)
-
+find_package(DeployQHexEdit REQUIRED)
 qt_standard_project_setup()
 
-qt_add_executable(qhexedit WIN32 MACOSX_BUNDLE
-    ../src/chunks.cpp ../src/chunks.h
-    ../src/color_manager.cpp ../src/color_manager.h
-    ../src/commands.cpp ../src/commands.h
-    ../src/qhexedit.cpp ../src/qhexedit.h
+qt_add_executable(example WIN32 MACOSX_BUNDLE
     main.cpp
     mainwindow.cpp mainwindow.h
     optionsdialog.cpp optionsdialog.h optionsdialog.ui
     searchdialog.cpp searchdialog.h searchdialog.ui
 )
-target_compile_definitions(qhexedit PRIVATE
-    QHEXEDIT_EXPORTS
-)
 
-target_link_libraries(qhexedit PRIVATE
+target_link_libraries(example PRIVATE
     Qt::Core
     Qt::Gui
     Qt::Widgets
+    qhexedit
 )
+
+target_include_directories( example PRIVATE ${CMAKE_SOURCE_DIR}/src )
 
 
 # Resources:
-set(qhexedit_resource_files
+set(example_resource_files
     "images/find.png"
     "images/open.png"
     "images/qhexedit.ico"
@@ -46,21 +42,22 @@ set(qhexedit_resource_files
     "translations/qhexedit_ru.qm"
 )
 
-qt_add_resources(qhexedit "qhexedit"
+qt_add_resources(example "example"
     PREFIX
         "/"
     FILES
-        ${qhexedit_resource_files}
+        ${example_resource_files}
 )
 
-install(TARGETS qhexedit
+install(TARGETS example
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 qt_generate_deploy_app_script(
-    TARGET qhexedit
+    TARGET example
     FILENAME_VARIABLE deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
+DeployQHexEdit( example . )
