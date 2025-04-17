@@ -51,12 +51,12 @@ Q_OBJECT
 public:
     // Constructors and file settings
     Chunks(QObject *parent);
-    Chunks(QIODevice &ioDevice, QObject *parent);
-    bool setIODevice(QIODevice &ioDevice);
+    Chunks(QIODevice *ioDevice, QObject *parent);
+    bool setIODevice(QIODevice *ioDevice);
 
     // Getting data out of Chunks
     QByteArray data(qint64 pos=0, qint64 count=-1, QByteArray *highlighted=0);
-    bool write(QIODevice &iODevice, qint64 pos=0, qint64 count=-1);
+    bool write(QIODevice *iODevice, qint64 pos=0, qint64 count=-1);
 
     // Set and get highlighting infos
     void setDataChanged(qint64 pos, bool dataChanged);

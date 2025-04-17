@@ -162,7 +162,7 @@ public:
     and closed immediately afterwards. This is to allow other programs to rewrite
     the file while editing it.
     */
-    bool setData(QIODevice &iODevice);
+    bool setData(QIODevice *iODevice);
 
     /*! Gives back the data as a QByteArray starting at position \param pos and
     delivering \param count bytes.
@@ -172,7 +172,7 @@ public:
     /*! Gives back the data into a \param iODevice starting at position \param pos
     and delivering \param count bytes.
     */
-    bool write(QIODevice &iODevice, qint64 pos=0, qint64 count=-1);
+    bool write(QIODevice *iODevice, qint64 pos=0, qint64 count=-1);
 
 
     // Char handling

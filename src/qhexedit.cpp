@@ -252,7 +252,7 @@ void QHexEdit::setData(const QByteArray &ba)
 {
     _data = ba;
     _bData->setData(_data);
-    setData(*_bData);
+    setData(_bData);
 }
 
 QByteArray QHexEdit::data()
@@ -326,7 +326,7 @@ bool QHexEdit::dynamicBytesPerLine()
 }
 
 // ********************************************************************** Access to data of qhexedit
-bool QHexEdit::setData(QIODevice &iODevice)
+bool QHexEdit::setData(QIODevice *iODevice)
 {
     bool ok = _chunks->setIODevice(iODevice);
     init();
@@ -338,7 +338,7 @@ QByteArray QHexEdit::dataAt(qint64 pos, qint64 count)
     return _chunks->data(pos, count);
 }
 
-bool QHexEdit::write(QIODevice &iODevice, qint64 pos, qint64 count)
+bool QHexEdit::write(QIODevice *iODevice, qint64 pos, qint64 count)
 {
     return _chunks->write(iODevice, pos, count);
 }

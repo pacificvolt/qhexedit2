@@ -32,17 +32,18 @@
 Chunks::Chunks(QObject *parent): QObject(parent)
 {
     QBuffer *buf = new QBuffer(this);
-    setIODevice(*buf);
+    setIODevice(buf);
 }
 
-Chunks::Chunks(QIODevice &ioDevice, QObject *parent): QObject(parent)
+Chunks::Chunks(QIODevice *ioDevice, QObject *parent): QObject(parent)
 {
     setIODevice(ioDevice);
 }
 
-bool Chunks::setIODevice(QIODevice &ioDevice)
+bool Chunks::setIODevice(QIODevice *ioDevice)
 {
-    _ioDevice = &ioDevice;
+    Q_ASSERT( _ioDevice );
+    _ioDevice = ioDevice;
     bool ok = _ioDevice->open(QIODevice::ReadOnly);
     if (ok)   // Try to open IODevice
     {
@@ -148,19 +149,20 @@ QByteArray Chunks::data(qint64 pos, qint64 maxSize, QByteArray *highlighted)
     return buffer;
 }
 
-bool Chunks::write(QIODevice &iODevice, qint64 pos, qint64 count)
+bool Chunks::write(QIODevice * iODevice, qint64 pos, qint64 count)
 {
+    Q_ASSERT( iODevice );
     if (count == -1)
         count = _size;
-    bool ok = iODevice.open(QIODevice::WriteOnly);
+    bool ok = iODevice->open(QIODevice::WriteOnly);
     if (ok)
     {
         for (qint64 idx=pos; idx < count; idx += BUFFER_SIZE)
         {
             QByteArray ba = data(idx, BUFFER_SIZE);
-            iODevice.write(ba);
+            iODevice->write(ba);
         }
-        iODevice.close();
+        iODevice->close();
     }
     return ok;
 }

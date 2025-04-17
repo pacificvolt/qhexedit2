@@ -397,7 +397,7 @@ void MainWindow::createToolBars()
 void MainWindow::loadFile(const QString &fileName)
 {
     file->setFileName(fileName);
-    if (!hexEdit->setData(*file)) {
+    if (!hexEdit->setData(file)) {
         QMessageBox::warning(this, tr("QHexEdit"),
                              tr("Cannot read file %1:\n%2.")
                              .arg(fileName)
@@ -448,7 +448,7 @@ bool MainWindow::saveFile(const QString &fileName)
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QFile file(tmpFileName);
-    bool ok = hexEdit->write(file);
+    bool ok = hexEdit->write(&file);
     if (QFile::exists(fileName))
         ok = QFile::remove(fileName);
     if (ok)
