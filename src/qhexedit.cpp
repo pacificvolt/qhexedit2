@@ -255,6 +255,11 @@ void QHexEdit::setData(const QByteArray &ba)
     setData(_bData);
 }
 
+void QHexEdit::clear()
+{
+    setData( QByteArray() );
+}
+
 QByteArray QHexEdit::data()
 {
     return _chunks->data(0, -1);
@@ -981,7 +986,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
 
         // We have to repaint the current char because the curser destroys the char
         painter.setPen(curArea.fontColor());
-        if ( _editAreaIsAscii && ( hexPos < _dataShown.length() ) )
+        if ( _editAreaIsAscii && ( ( hexPos / 2 ) < _dataShown.length() ) )
         {
             // every 2 hex there is 1 ascii
             int ch = (uchar)_dataShown.at(hexPos / 2);

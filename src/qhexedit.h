@@ -164,6 +164,10 @@ public:
     */
     bool setData(QIODevice *iODevice);
 
+    /*! Clears the data of QHexEdit. 
+    */
+    void clear();
+
     /*! Gives back the data as a QByteArray starting at position \param pos and
     delivering \param count bytes.
     */
